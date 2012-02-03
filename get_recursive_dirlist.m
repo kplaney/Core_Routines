@@ -16,8 +16,11 @@ else
 end
 
 if isdir(source_dir)
-  relative_dirlist = build_relative_dirlist(source_dir, [], depth);
-	abs_dirlist = strcat(source_dir, filesep, relative_dirlist);
+	relative_dirlist = build_relative_dirlist(source_dir, [], depth);
+	% abs_dirlist = strcat(source_dir, filesep, relative_dirlist);
+  
+	% This version fixes the trailing slashes problem -DIG Jan 2012
+	abs_dirlist = cellfun(@(x) fullfile(source_dir, x), relative_dirlist, 'uniformoutput', false);
 else
 	disp(sprintf('%s: source_dir %s is not a valid directory', mfilename, source_dir));
 	return;
